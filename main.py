@@ -15,6 +15,7 @@ driver.get(f'{dlurl}')
 f = open('myfile.html', 'w', encoding='utf-8')
 print(driver.page_source)
 f.write(driver.page_source)
+driver.close()
 f.close()
 data = open('myfile.html', 'r', encoding='UTF-8').read()
 if not data.rfind('"icon":"UNKNOWN"}'):
@@ -59,7 +60,7 @@ end = editime+60 # 終了時刻
 
 video=VideoFileClip(mp4flile+".mp4")
 print(video.end)
-if end<=video.end:
+if end>=video.end:
     end=video.end
 final_clip = video.subclip(start, end)
 final_clip.write_videofile(f"{mp4flile}most.mp4",)
