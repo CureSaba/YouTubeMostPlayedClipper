@@ -10,3 +10,5 @@ This is a program that automatically creates a 1minute video of the most viewed 
 6. Turn on `HTTP API` ![image](https://github.com/sabaadmin/YouTubeMostPlayedClipper/assets/94890302/fe33a3a4-904f-4acf-8f41-a3cbf48f2a19)
 7. option : Set the exclude file settings as shown in the image above
 8. Run main.py
+9. It will be generated in the same directory as main.py
+10. Next time you use it, please delete the video from the `Hitomi-Downloader` list.
