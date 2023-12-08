@@ -57,5 +57,9 @@ while True:
 start = editime # 開始時刻
 end = editime+60 # 終了時刻
 
-final_clip = VideoFileClip(mp4flile+".mp4").subclip(start, end)
+video=VideoFileClip(mp4flile+".mp4")
+print(video.end)
+if end<=video.end:
+    end=video.end
+final_clip = video.subclip(start, end)
 final_clip.write_videofile(f"{mp4flile}most.mp4",)
