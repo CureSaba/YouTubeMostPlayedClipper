@@ -63,5 +63,4 @@ print(video.end)
 if end>=video.end:
     end=video.end
 final_clip = video.subclip(start, end)
-final_clip.write_videofile(f"{mp4flile}-most.mp4",)
-print(title)
+final_clip.write_videofile(f"{title}-most.mp4",)
