@@ -9,6 +9,7 @@ from moviepy.editor import *
 url = "http://localhost:6975"
 dlurl=input("YouTubeURL: ")
 mp4flile=""
+title=""
 service = Service(executable_path="msedgedriver.exe")
 driver = webdriver.Edge(service=service)
 driver.get(f'{dlurl}')
@@ -42,25 +43,25 @@ print(response.json())
 def check():
     response = requests.request("GET", url+"/items")
     #print(response.json())
-    return response.json()["items"][0]["label_color"],response.json()["items"][0]["url"]
+    return response.json()["items"][0]["label_color"],response.json()["items"][0]["url"],response.json()[0]["title"]
 
 def extracturl(input_text):
     pattern = re.compile(r"https://www\.youtube\.com/watch\?v=(.*)")
     return pattern.match(input_text).group(1)
 
 while True:
-    check()
     if check()[0]=="done":
         print(check())
         mp4flile=extracturl(check()[1])
+        title=check()[3]
         break
     time.sleep(2)
 start = editime # 開始時刻
 end = editime+60 # 終了時刻
-
 video=VideoFileClip(mp4flile+".mp4")
 print(video.end)
 if end>=video.end:
     end=video.end
 final_clip = video.subclip(start, end)
-final_clip.write_videofile(f"{mp4flile}most.mp4",)
+final_clip.write_videofile(f"{mp4flile}-most.mp4",)
+print(title)
