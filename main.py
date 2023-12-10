@@ -53,7 +53,7 @@ while True:
     if check()[0]=="done":
         print(check())
         mp4flile=extracturl(check()[1])
-        title=check()[3]
+        title=check()[2]
         break
     time.sleep(2)
 start = editime # 開始時刻
