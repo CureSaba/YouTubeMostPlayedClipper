@@ -43,7 +43,7 @@ print(response.json())
 def check():
     response = requests.request("GET", url+"/items")
     #print(response.json())
-    return response.json()["items"][0]["label_color"],response.json()["items"][0]["url"],response.json()[0]["title"]
+    return response.json()["items"][0]["label_color"],response.json()["items"][0]["url"],response.json()["items"][0]["title"]
 
 def extracturl(input_text):
     pattern = re.compile(r"https://www\.youtube\.com/watch\?v=(.*)")
