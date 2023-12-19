@@ -15,22 +15,23 @@ service = Service(executable_path="msedgedriver.exe")
 driver = webdriver.Edge(service=service)
 driver.get(f'{dlurl}')
 f = open('myfile.html', 'w', encoding='utf-8')
-#print(driver.page_source)
+print(driver.page_source)
 f.write(driver.page_source)
 driver.close()
 f.close()
 data = open('myfile.html', 'r', encoding='UTF-8').read()
-if not data.rfind('"icon":"UNKNOWN"}'):
-    print("Most played not found")
-    sys.exit()
 print(data[data.find('"markerType":"MARKER_TYPE_HEATMAP"')+35:data.rfind('"icon":"UNKNOWN"}')+19])
 f = open('myfile.json', 'w', encoding='utf-8')
 f.write("{"+data[data.find('"markerType":"MARKER_TYPE_HEATMAP"')+35:data.rfind('"icon":"UNKNOWN"}')+19]+"}")
 f.close()
 f= open("myfile.json", "r", encoding='utf-8')
 jsonfile= json.load(f)
-for i in jsonfile["markersDecoration"]["timedMarkerDecorations"]:
-    print(i["decorationTimeMillis"])
+try:
+    for i in jsonfile["markersDecoration"]["timedMarkerDecorations"]:
+        print(i["decorationTimeMillis"])
+except:
+    print("Most played not found")
+    sys.exit()
 #1s=1000ms
 mosttime=jsonfile["markersDecoration"]["timedMarkerDecorations"]
 
