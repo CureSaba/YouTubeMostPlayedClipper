@@ -11,4 +11,3 @@ This is a program that automatically creates a 1minute video of the most viewed 
 7. option : Set the exclude file settings as shown in the image above
 8. Run main.py
 9. It will be generated in the same directory as main.py
-10. Next time you use it, please delete the video from the `Hitomi-Downloader` list.
