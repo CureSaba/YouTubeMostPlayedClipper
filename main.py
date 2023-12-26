@@ -1,6 +1,8 @@
 import re
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
+import http.client
+import logging
+import socket
+from urllib.request import Request, urlopen
 import sys
 import json
 import time
@@ -11,30 +13,43 @@ import moviepy.video.fx.resize as resize_vid
 url = "http://localhost:6975"
 dlurl=input("YouTubeURL: ")
 mp4flile=""
-service = Service(executable_path="msedgedriver.exe")
-driver = webdriver.Edge(service=service)
-driver.get(f'{dlurl}')
-f = open('myfile.html', 'w', encoding='utf-8')
-print(driver.page_source)
-f.write(driver.page_source)
-driver.close()
-f.close()
-data = open('myfile.html', 'r', encoding='UTF-8').read()
-print(data[data.find('"markerType":"MARKER_TYPE_HEATMAP"')+35:data.rfind('"icon":"UNKNOWN"}')+19])
-f = open('myfile.json', 'w', encoding='utf-8')
-f.write("{"+data[data.find('"markerType":"MARKER_TYPE_HEATMAP"')+35:data.rfind('"icon":"UNKNOWN"}')+19]+"}")
-f.close()
-f= open("myfile.json", "r", encoding='utf-8')
-jsonfile= json.load(f)
+def _execute_request(
+    url,
+    method=None,
+    headers=None,
+    data=None,
+    timeout=socket._GLOBAL_DEFAULT_TIMEOUT
+):
+    base_headers = {"User-Agent": "Mozilla/5.0", "accept-language": "en-US,en"}
+    if headers:
+        base_headers.update(headers)
+    if data:
+        # encode data for request
+        if not isinstance(data, bytes):
+            data = bytes(json.dumps(data), encoding="utf-8")
+    if url.lower().startswith("http"):
+        request = Request(url, headers=base_headers, method=method, data=data)
+    else:
+        raise ValueError("Invalid URL")
+    return urlopen(request, timeout=timeout)  # nosec
+def get(url, extra_headers=None, timeout=socket._GLOBAL_DEFAULT_TIMEOUT):
+    if extra_headers is None:
+        extra_headers = {}
+    response = _execute_request(url, headers=extra_headers, timeout=timeout)
+    return response.read().decode("utf-8")
+data=get(dlurl)
+a="{"+data[data.find('"markerType":"MARKER_TYPE_HEATMAP"')+35:data.rfind('"icon":"UNKNOWN"}')+19]+"}"
+a=json.loads(a)
+#print(a)
+print(a["markersDecoration"])
 try:
-    for i in jsonfile["markersDecoration"]["timedMarkerDecorations"]:
+    for i in a["markersDecoration"]["timedMarkerDecorations"]:
         print(i["decorationTimeMillis"])
 except:
     print("Most played not found")
     sys.exit()
 #1s=1000ms
-mosttime=jsonfile["markersDecoration"]["timedMarkerDecorations"]
-
+mosttime=a["markersDecoration"]["timedMarkerDecorations"]
 payload = {"input": f"{dlurl}"}
 headers = {"Content-Type": "application/json"}
 response = requests.request("POST", url+"/download", json=payload, headers=headers)
@@ -85,7 +100,7 @@ for i in mosttime:
     if mp4flile[0]=="-":
         mp4flile=mp4flile.replace(mp4flile[0], "(dash)", 1)
     final_clip=resize_vid.resize(final_clip, width=1080, height=1920)
-    final_clip.write_videofile(f"{mp4flile}-most{count}.mp4")
+    final_clip.write_videofile(f"{mp4flile}-most{count}.mp4",fps=30)
     count=count+1
 try:
     pass
