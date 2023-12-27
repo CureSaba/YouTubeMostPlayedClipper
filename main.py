@@ -51,8 +51,8 @@ a = (
 )
 a = json.loads(a)
 # print(a)
-print(a["markersDecoration"])
 try:
+    print(a["markersDecoration"])
     for i in a["markersDecoration"]["timedMarkerDecorations"]:
         print(i["decorationTimeMillis"])
 except:
