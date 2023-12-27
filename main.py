@@ -113,5 +113,3 @@ for i in mosttime:
     final_clip = resize_vid.resize(final_clip, width=1080, height=1920)
     final_clip.write_videofile(f"{title}-most{count}.mp4", fps=30, remove_temp=True)
     count = count + 1
-os.remove(mp4flile + ".mp4")
-os.remove(mp4flile + "-audio.mp3")
