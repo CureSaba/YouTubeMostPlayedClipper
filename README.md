@@ -9,3 +9,4 @@ This is a program that automatically creates a 1minute video of the most viewed 
 - [ ] Playlist compatible
 - [ ] Preventing the generation of the same video
 - [ ] Automatic posting
+- [ ] Make library
