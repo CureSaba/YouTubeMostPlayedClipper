@@ -26,18 +26,15 @@ class (url):
         response = _execute_request(url, headers=extra_headers, timeout=timeout)
         return response.read().decode("utf-8")
 
-    def list(self, ):
-    data = get(dlurl)
-    a = ("{" + data[data.find('"markerType":"MARKER_TYPE_HEATMAP"') + 35 : data.rfind('"icon":"UNKNOWN"}') + 19] + "}")
-    a = json.loads(a)
-    try:
-    print(a["markersDecoration"])
-    for i in a["markersDecoration"]["timedMarkerDecorations"]:
-        print(i["decorationTimeMillis"])
-    except:
-        print("Most played not found")
-    # 1s=1000ms
-    mosttime = a["markersDecoration"]["timedMarkerDecorations"]
-    for i in mosttime:
-    i = i["decorationTimeMillis"]
-    edittime = i / 1000  # sec
+    def list(self):
+        data = get(dlurl)
+        a = ("{" + data[data.find('"markerType":"MARKER_TYPE_HEATMAP"') + 35 : data.rfind('"icon":"UNKNOWN"}') + 19] + "}")
+        a = json.loads(a)
+        b = []
+        try:
+            for i in a["markersDecoration"]["timedMarkerDecorations"]:
+                b.append(i["decorationTimeMillis"] / 1000)# 1s=1000ms
+            return(b)
+        except:
+            raise NotFound("Most played not found")
+        
