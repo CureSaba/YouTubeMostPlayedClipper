@@ -4,8 +4,9 @@ from urllib.request import Request, urlopen
 import json
 
 dlurl = input("YouTubeURL: ")
-class (url):
-    def __init__:
+class:
+    def __init__(self, url):
+        self.url = url
     def _execute_request(url, method=None, headers=None, data=None, timeout=socket._GLOBAL_DEFAULT_TIMEOUT):
         base_headers = {"User-Agent": "Mozilla/5.0", "accept-language": "en-US,en"}
         if headers:
@@ -27,7 +28,7 @@ class (url):
         return response.read().decode("utf-8")
 
     def list(self):
-        data = get(dlurl)
+        data = get(self.url)
         a = ("{" + data[data.find('"markerType":"MARKER_TYPE_HEATMAP"') + 35 : data.rfind('"icon":"UNKNOWN"}') + 19] + "}")
         a = json.loads(a)
         b = []
